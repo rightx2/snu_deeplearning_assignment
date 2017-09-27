@@ -386,8 +386,7 @@ def calculate_loss(model):
 
     # Forward propagation to calculate our predictions
     z1 = batch_train_dataset.dot(W1) + b1
-    a1 = z1 * (z1 > 0) # Implemenatation of ReLU
-    # a1 = np.tanh(z1)
+    a1 = np.maximum(z1, 0) # Implemenatation of ReLU
     z2 = a1.dot(W2) + b2
     exp_scores = np.exp(z2)
     probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
@@ -409,7 +408,7 @@ def sample_training_data(batch_size):
 
     return batch_train_dataset, batch_train_labels
 
-def build_model(nn_hdim, batch_size, num_passes=10000, print_loss=False):
+def build_model(nn_hdim, batch_size, epsilon=0.1, num_passes=10000, print_loss=False):
     """
     This function learns parameters for the neural network and returns the model.
     - nn_hdim: Number of nodes in the hidden layer
@@ -460,6 +459,9 @@ def build_model(nn_hdim, batch_size, num_passes=10000, print_loss=False):
 
         # Assign new parameters to the model
         model = { 'W1': W1, 'b1': b1, 'W2': W2, 'b2': b2}
+
+        if (i % 200 == 1) and epsilon > 0.01:
+            epsilon *= 0.99
 
         # Optionally print the loss.
         # This is expensive because it uses the whole dataset, so we don't want to do it too often.
