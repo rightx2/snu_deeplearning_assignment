@@ -369,11 +369,33 @@ def accuracy(model):
 # In[22]:
 
 
-batch_size = 256
-# train_dataset = train_dataset[0:data_size]
-# train_labels = train_labels[0:data_size]
 
-# num_examples = len(train_dataset) # training set size
+
+pickle_file = 'data/notMNIST.pickle'
+
+with open(pickle_file, 'rb') as f:
+    save = pickle.load(f)
+    train_dataset = save['train_dataset']
+    train_labels = save['train_labels']
+    valid_dataset = save['valid_dataset']
+    valid_labels = save['valid_labels']
+    test_dataset = save['test_dataset']
+    test_labels = save['test_labels']
+    del save  # hint to help gc free up memory
+
+    print('Training set', train_dataset.shape, train_labels.shape)
+    print('Validation set', valid_dataset.shape, valid_labels.shape)
+    print('Test set', test_dataset.shape, test_labels.shape)
+
+
+train_dataset, train_labels = reformat(train_dataset, train_labels)
+valid_dataset, valid_labels = reformat(valid_dataset, valid_labels)
+test_dataset, test_labels = reformat(test_dataset, test_labels)
+
+
+batch_size = 256
+
+num_examples = len(train_dataset) # training set size
 nn_input_dim = 784 # input layer dimensionality
 nn_output_dim = 10 # output layer dimensionality
 
