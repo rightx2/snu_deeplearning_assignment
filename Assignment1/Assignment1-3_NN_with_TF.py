@@ -402,3 +402,5 @@ for condition in condition_dict:
     print("")
     print("")
     print("")
+    saver = tf.train.Saver()
+    saver.save(session, "./model_checkpoints/my_model_final")
