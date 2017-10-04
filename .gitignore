@@ -102,3 +102,7 @@ venv.bak/
 .mypy_cache/
 
 *.pptx
+data/
+*.out
+*.tar.gz
+model_checkpoints
