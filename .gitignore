@@ -106,3 +106,4 @@ data/
 *.out
 *.tar.gz
 model_checkpoints
+*.pdf
